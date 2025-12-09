@@ -16,14 +16,14 @@ export class PagesController {
     return this.pagesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pagesService.findOne(+id);
-  }
-
   @Get('slug/:slug')
   findBySlug(@Param('slug') slug: string) {
     return this.pagesService.findBySlug(slug);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.pagesService.findOne(+id);
   }
 
   @Patch(':id')
