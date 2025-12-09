@@ -22,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "@nestjs/common": "^11.1.9",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.9",
     "@nestjs/platform-express": "^11.1.9",
     "@nestjs/typeorm": "^11.0.0",
@@ -41,5 +42,8 @@
     "ts-loader": "^9.5.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
-  }
+  },
+  "trustedDependencies": [
+    "@nestjs/core"
+  ]
 }
