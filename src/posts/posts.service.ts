@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Post } from './post.entity';
 import { Category } from '../categories/category.entity';
 import { Tag } from '../tags/tag.entity';
@@ -23,11 +23,11 @@ export class PostsService {
     const post = this.postsRepository.create(postData);
     
     if (categoryIds && categoryIds.length > 0) {
-      post.categories = await this.categoriesRepository.findByIds(categoryIds);
+      post.categories = await this.categoriesRepository.findBy({ id: In(categoryIds) });
     }
     
     if (tagIds && tagIds.length > 0) {
-      post.tags = await this.tagsRepository.findByIds(tagIds);
+      post.tags = await this.tagsRepository.findBy({ id: In(tagIds) });
     }
     
     return await this.postsRepository.save(post);
@@ -69,7 +69,7 @@ export class PostsService {
     
     if (categoryIds !== undefined) {
       if (categoryIds.length > 0) {
-        post.categories = await this.categoriesRepository.findByIds(categoryIds);
+        post.categories = await this.categoriesRepository.findBy({ id: In(categoryIds) });
       } else {
         post.categories = [];
       }
@@ -77,7 +77,7 @@ export class PostsService {
     
     if (tagIds !== undefined) {
       if (tagIds.length > 0) {
-        post.tags = await this.tagsRepository.findByIds(tagIds);
+        post.tags = await this.tagsRepository.findBy({ id: In(tagIds) });
       } else {
         post.tags = [];
       }
