@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Category } from './category.entity';
-import { CreateCategoryDto, UpdateCategoryDto } from './category.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Category } from "./category.entity";
+import { CreateCategoryDto, UpdateCategoryDto } from "./category.dto";
 
 @Injectable()
 export class CategoriesService {
@@ -17,13 +17,13 @@ export class CategoriesService {
   }
 
   async findAll(): Promise<Category[]> {
-    return await this.categoriesRepository.find({ relations: ['posts'] });
+    return await this.categoriesRepository.find({ relations: ["posts"] });
   }
 
   async findOne(id: number): Promise<Category> {
-    const category = await this.categoriesRepository.findOne({ 
+    const category = await this.categoriesRepository.findOne({
       where: { id },
-      relations: ['posts']
+      relations: ["posts"],
     });
     if (!category) {
       throw new NotFoundException(`Category with ID ${id} not found`);
@@ -31,7 +31,21 @@ export class CategoriesService {
     return category;
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+  async findOneBySlug(slug: string): Promise<Category> {
+    const category = await this.categoriesRepository.findOne({
+      where: { slug },
+      relations: ["posts"],
+    });
+    if (!category) {
+      throw new NotFoundException(`Category with Slug ${slug} not found`);
+    }
+    return category;
+  }
+
+  async update(
+    id: number,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<Category> {
     const category = await this.findOne(id);
     Object.assign(category, updateCategoryDto);
     return await this.categoriesRepository.save(category);
