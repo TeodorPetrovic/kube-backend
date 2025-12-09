@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Category } from "./category.entity";
 import { CreateCategoryDto, UpdateCategoryDto } from "./category.dto";
+import * as os from "os";
 
 @Injectable()
 export class CategoriesService {
@@ -39,6 +40,8 @@ export class CategoriesService {
     if (!category) {
       throw new NotFoundException(`Category with Slug ${slug} not found`);
     }
+
+    category.name = category.name + " " + os.hostname();
     return category;
   }
 
